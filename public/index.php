@@ -84,19 +84,19 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
                         $multiMessageBuilder->add($stickerMessageBuilder);
                     } else if (lcfirst($event['message']['text']) == 'gambar') {
                         // send image
-                        $imageMessageBuilder = new ImageMessageBuilder('https://drive.google.com/file/d/1jdqvuXQEfSw7nvCKbnbaIgXYbYhSNC8L/view?usp=sharing', 'https://drive.google.com/file/d/1MOL7Wk1uKoT24XHc5V9woC3zYEhV22ns/view?usp=sharing');
+                        $imageMessageBuilder = new ImageMessageBuilder('https://lh3.googleusercontent.com/DRSW6KyWbu8zNe0vM2uvebH2l0hJDOpW0ACq_8GaFy1JwW4DetMaHWU8vyUotpgPX_nRWqxWm-HCgjoBku6V=w943-h426', 'https://lh3.googleusercontent.com/fife/ABSRlIr-xkCoeR3TkRE4z7KiTGjF6FiYQdNkIHB1YCJikYRb_LRNP4PAX5QDlgo97i2GV1p8eCMKqKckYGnzJ8BogKMQZI5PLeG3PbgPfGzAhT1WijlBDuSs-cWrUuXZ1ZOojYM9g8VYpmWT8RiuwS7R0bHcOw-dlmqLpmi2Pi6MBzinKPKqmz-RGua8Rl9FCudHwnIxpYT5FeUYO5mjowCruLb4aNmBWGjZB2zwUZWZ5EelLUaU372ML79Ke6CGLeddeP7nQYXFMY6dzjSCIQ4-10NfwYW4xkwgP5nzESD9QZLm-9fS0VqQ_UDEGi6ufhmlCI4OsiQgNyd1Qn08ivxcIIlUz5II1q6KLwEMgBE4U_GOAhtLw-loBA5GIzJbkoRExELuytyp9Gh9-j1ZaoxCN2rPPle0QVACg2THcGa0lDJBt4br-JSk5HQ9DTYxMViEOhSUpbtb06vowOhINeQUScYTtcWokizKQLfQMgPnrd4659-E92CLnPTGnJBnmmppQ43DUzFMvVb1Q7HAkdblxD1zlgbSBH9aFu53IZGKMSITfVNQeRjB0sdt0VjNOYfS3m2rW6RTh6QPjpVupuw-hd7nTIEEQi9rIEypHTlbpg6YExYCkHoIc2i_JNCEP3m_BG2QYII5REIfBt0L782xNgOnK3ht8KbsFTiVJcRdMSAIlt0yVaDebedQQt7UjOlkPbKAz1IaHl44mBnvODnqP0mNqKbcxxDhMg=w943-h410-ft');
                         $result = $bot->replyMessage($event['replyToken'], $imageMessageBuilder);
                         // $multiMessageBuilder->add($imageMessageBuilder);
 
                     } else if (lcfirst($event['message']['text']) == 'audio') {
-                        // send audo
-                        $audioMessageBuilder = new AudioMessageBuilder('https://www.youtube.com/watch?v=1_TK6GOKxRk', '1:49');
+                        // send audio
+                        $audioMessageBuilder = new AudioMessageBuilder('https://open.spotify.com/track/0cSkn2l67csUljEy0EEBPn', '4:35');
                         $result = $bot->replyMessage($event['replyToken'], $audioMessageBuilder);
                         // $multiMessageBuilder->add($audioMessageBuilder);
 
                     } else if (lcfirst($event['message']['text']) == 'video') {
                         // send video
-                        $videoMessageBuilder = new VideoMessageBuilder('https://www.youtube.com/watch?v=1_TK6GOKxRk', 'https://i.ytimg.com/vi/E99ef0wU-pI/hq720.jpg?sqp=-oaymwEZCOgCEMoBSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLACWXOzuVj57AX4bXq5HAuG9ha0RQ');
+                        $videoMessageBuilder = new VideoMessageBuilder('https://youtu.be/1_TK6GOKxRk', 'https://i.ytimg.com/vi/E99ef0wU-pI/hq720.jpg?sqp=-oaymwEZCOgCEMoBSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLACWXOzuVj57AX4bXq5HAuG9ha0RQ');
                         $result = $bot->replyMessage($event['replyToken'], $videoMessageBuilder);
                         // $multiMessageBuilder->add($videoMessageBuilder);
 
@@ -109,7 +109,7 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
                     // store result
                     if (
                         lcfirst($event['message']['text']) != 'gambar' and
-                        lcfirst($event['message']['text']) != 'video'  and
+                        lcfirst($event['message']['text']) != 'audio'  and
                         lcfirst($event['message']['text']) != 'video'
                     ) {
                         $result = $bot->replyMessage($event['replyToken'], $multiMessageBuilder);
