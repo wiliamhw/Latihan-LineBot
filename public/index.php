@@ -10,6 +10,9 @@ use \LINE\LINEBot\HTTPClient\CurlHTTPClient;
 use \LINE\LINEBot\MessageBuilder\MultiMessageBuilder;
 use \LINE\LINEBot\MessageBuilder\TextMessageBuilder;
 use \LINE\LINEBot\MessageBuilder\StickerMessageBuilder;
+use \LINE\LINEBot\MessageBuilder\ImageMessageBuilder;
+use \LINE\LINEBot\MessageBuilder\AudioMessageBuilder;
+use \LINE\LINEBot\MessageBuilder\VideoMessageBuilder;
 use \LINE\LINEBot\SignatureValidator as SignatureValidator;
 
 // If request simulation --> true
@@ -53,27 +56,53 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
         }
     }
 
-    // kode aplikasi nanti disini
-    // Reply text message
+    // store JSON data
     $data = json_decode($body, true);
+
+    // Reply text message
     if (is_array($data['events'])) {
         foreach ($data['events'] as $event) {
             if ($event['type'] == 'message') {
                 if ($event['message']['type'] == 'text') {
                     // send same message as reply to user
-                    $result = $bot->replyText($event['replyToken'], $event['message']['text']);
-
+                    // $result = $bot->replyText($event['replyToken'], $event['message']['text']);
 
                     // or we can use replyMessage() instead to send reply message
-                    // $textMessageBuilder = new TextMessageBuilder($event['message']['text']);
-                    // $result = $bot->replyMessage($event['replyToken'], $textMessageBuilder);
+                    // make text
+                    $textMessageBuilder = new TextMessageBuilder($event['message']['text']);
 
-                    // send sticker
-                    // $packageId = 1;
-                    // $stickerId = 2;
-                    // $stickerMessageBuilder = new StickerMessageBuilder($packageId, $stickerId);
-                    // $bot->replyMessage($event['replyToken'], $stickerMessageBuilder);
+                    // make multiMessage
+                    $multiMessageBuilder = new multiMessageBuilder();
+                    $multiMessageBuilder->add($textMessageBuilder);
 
+                    if (lcfirst($event['message']['text']) == 'stiker') {
+                        // send sticker
+                        $packageId = 1;
+                        $stickerId = 2;
+                        $stickerMessageBuilder = new StickerMessageBuilder($packageId, $stickerId);
+                        $multiMessageBuilder->add($stickerMessageBuilder);
+                    } else if (lcfirst($event['message']['text']) == 'gambar') {
+                        // send image
+                        $imageMessageBuilder = new ImageMessageBuilder('https://drive.google.com/file/d/1jdqvuXQEfSw7nvCKbnbaIgXYbYhSNC8L/view?usp=sharing', 'https://drive.google.com/file/d/1MOL7Wk1uKoT24XHc5V9woC3zYEhV22ns/view?usp=sharing');
+                        $multiMessageBuilder->add($imageMessageBuilder);
+                    } else if (lcfirst($event['message']['text']) == 'audio') {
+                        // send audo
+                        $audioMessageBuilder = new AudioMessageBuilder('https://www.youtube.com/watch?v=1_TK6GOKxRk', '1:49');
+                        $multiMessageBuilder->add($audioMessageBuilder);
+                    } else if (lcfirst($event['message']['text']) == 'video') {
+                        // send video
+                        $videoMessageBuilder = new VideoMessageBuilder('https://www.youtube.com/watch?v=1_TK6GOKxRk', 'https://i.ytimg.com/vi/E99ef0wU-pI/hq720.jpg?sqp=-oaymwEZCOgCEMoBSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLACWXOzuVj57AX4bXq5HAuG9ha0RQ');
+                        $multiMessageBuilder->add($videoMessageBuilder);
+                    } else if (lcfirst($event['message']['text']) == 'hi') {
+                        // send text
+                        $textMessageBuilder2 = new TextMessageBuilder("Hello");
+                        $multiMessageBuilder->add($textMessageBuilder2);
+                    }
+
+                    // store result
+                    $result = $bot->replyMessage($event['replyToken'], $multiMessageBuilder);
+
+                    // write to JSON
                     $response->getBody()->write(json_encode($result->getJSONDecodedBody()));
                     return $response
                         ->withHeader('Content-Type', 'application/json')
