@@ -110,7 +110,7 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
                     if (
                         lcfirst($event['message']['text']) != 'gambar' and
                         lcfirst($event['message']['text']) != 'video'  and
-                        lcfirst($event['message']['text']) == 'video'
+                        lcfirst($event['message']['text']) != 'video'
                     ) {
                         $result = $bot->replyMessage($event['replyToken'], $multiMessageBuilder);
                     }
