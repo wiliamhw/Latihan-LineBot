@@ -68,6 +68,11 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
                     // $textMessageBuilder = new TextMessageBuilder($event['message']['text']);
                     // $result = $bot->replyMessage($event['replyToken'], $textMessageBuilder);
 
+                    // send sticker
+                    // $packageId = 1;
+                    // $stickerId = 2;
+                    // $stickerMessageBuilder = new StickerMessageBuilder($packageId, $stickerId);
+                    // $bot->replyMessage($event['replyToken'], $stickerMessageBuilder);
 
                     $response->getBody()->write(json_encode($result->getJSONDecodedBody()));
                     return $response
@@ -76,8 +81,9 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
                 }
             }
         }
+        return $response->withStatus(200, 'for Webhook!'); //buat ngasih response 200 ke pas verify webhook
     }
+    return $response->withStatus(400, 'No event sent!');
 });
-$bot->replyText($replyToken, 'ini pesan balasan');
 
 $app->run();
