@@ -70,6 +70,7 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
                     // or we can use replyMessage() instead to send reply message
                     // make text
                     $textMessageBuilder = new TextMessageBuilder($event['message']['text']);
+                    // $result = $bot->replyMessage($event['replyToken'], $textMessageBuilder);
 
                     // make multiMessage
                     $multiMessageBuilder = new multiMessageBuilder();
@@ -83,16 +84,22 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
                         $multiMessageBuilder->add($stickerMessageBuilder);
                     } else if (lcfirst($event['message']['text']) == 'gambar') {
                         // send image
-                        $imageMessageBuilder = new ImageMessageBuilder('https://i.pximg.net/img-master/img/2020/04/05/00/00/10/80567870_p0_master1200.jpg', 'https://i.pximg.net/img-master/img/2020/04/05/00/00/10/80567870_p0_master1200.jpg');
-                        $multiMessageBuilder->add($imageMessageBuilder);
+                        $imageMessageBuilder = new ImageMessageBuilder('https://drive.google.com/file/d/1jdqvuXQEfSw7nvCKbnbaIgXYbYhSNC8L/view?usp=sharing', 'https://drive.google.com/file/d/1MOL7Wk1uKoT24XHc5V9woC3zYEhV22ns/view?usp=sharing');
+                        $result = $bot->replyMessage($event['replyToken'], $imageMessageBuilder);
+                        // $multiMessageBuilder->add($imageMessageBuilder);
+
                     } else if (lcfirst($event['message']['text']) == 'audio') {
                         // send audo
                         $audioMessageBuilder = new AudioMessageBuilder('https://www.youtube.com/watch?v=1_TK6GOKxRk', '1:49');
-                        $multiMessageBuilder->add($audioMessageBuilder);
+                        $result = $bot->replyMessage($event['replyToken'], $audioMessageBuilder);
+                        // $multiMessageBuilder->add($audioMessageBuilder);
+
                     } else if (lcfirst($event['message']['text']) == 'video') {
                         // send video
                         $videoMessageBuilder = new VideoMessageBuilder('https://www.youtube.com/watch?v=1_TK6GOKxRk', 'https://i.ytimg.com/vi/E99ef0wU-pI/hq720.jpg?sqp=-oaymwEZCOgCEMoBSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLACWXOzuVj57AX4bXq5HAuG9ha0RQ');
-                        $multiMessageBuilder->add($videoMessageBuilder);
+                        $result = $bot->replyMessage($event['replyToken'], $videoMessageBuilder);
+                        // $multiMessageBuilder->add($videoMessageBuilder);
+
                     } else if (lcfirst($event['message']['text']) == 'hi') {
                         // send text
                         $textMessageBuilder2 = new TextMessageBuilder("Hello");
@@ -100,7 +107,13 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
                     }
 
                     // store result
-                    $result = $bot->replyMessage($event['replyToken'], $multiMessageBuilder);
+                    if (
+                        lcfirst($event['message']['text']) != 'gambar' and
+                        lcfirst($event['message']['text']) != 'video'  and
+                        lcfirst($event['message']['text']) == 'video'
+                    ) {
+                        $result = $bot->replyMessage($event['replyToken'], $multiMessageBuilder);
+                    }
 
                     // write to JSON
                     $response->getBody()->write(json_encode($result->getJSONDecodedBody()));
