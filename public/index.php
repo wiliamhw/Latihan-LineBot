@@ -83,7 +83,7 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
                         $multiMessageBuilder->add($stickerMessageBuilder);
                     } else if (lcfirst($event['message']['text']) == 'gambar') {
                         // send image
-                        $imageMessageBuilder = new ImageMessageBuilder('https://drive.google.com/file/d/1jdqvuXQEfSw7nvCKbnbaIgXYbYhSNC8L/view?usp=sharing', 'https://drive.google.com/file/d/1MOL7Wk1uKoT24XHc5V9woC3zYEhV22ns/view?usp=sharing');
+                        $imageMessageBuilder = new ImageMessageBuilder('https://i.pximg.net/img-master/img/2020/04/05/00/00/10/80567870_p0_master1200.jpg', 'https://i.pximg.net/img-master/img/2020/04/05/00/00/10/80567870_p0_master1200.jpg');
                         $multiMessageBuilder->add($imageMessageBuilder);
                     } else if (lcfirst($event['message']['text']) == 'audio') {
                         // send audo
