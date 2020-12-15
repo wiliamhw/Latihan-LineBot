@@ -90,7 +90,7 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
 
                     } else if (lcfirst($event['message']['text']) == 'audio') {
                         // send audio
-                        $audioMessageBuilder = new AudioMessageBuilder('https://open.spotify.com/track/0cSkn2l67csUljEy0EEBPn', '4:35');
+                        $audioMessageBuilder = new AudioMessageBuilder('https://flrc-old.pomona.edu/audio/Japanese/1a/Genki1_2nd_TB/mp3/Genki1-Title.mp3', '4:35');
                         $result = $bot->replyMessage($event['replyToken'], $audioMessageBuilder);
                         // $multiMessageBuilder->add($audioMessageBuilder);
 
