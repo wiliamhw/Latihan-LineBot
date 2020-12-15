@@ -85,35 +85,15 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
                     } else if (lcfirst($event['message']['text']) == 'gambar') {
                         // send image
                         $imageMessageBuilder = new ImageMessageBuilder('https://lh3.googleusercontent.com/fife/ABSRlIrfeoZODN6nVh5rfEeFe37XAx5qCzKU8R_XCQxCTHxZJNZ5O0g2TZpx3QAUOiuD6InvyvY8sMOA1wDMUOXHlX3O0j8QOdhi9r4Di6KPvYS9bh8xAXjI1CWxJ4uSZtJcKOwmL3cWTT1rGozjBP1ADOHO4orTl4V20yCwRSncrHO3N1tJKNG7l418j1Ln2Z7n2S7KAwGJmp7xBqdN5gH6f4fcNzFT_idNBHfWLPwLtmAPHwIxTXhVOqqSa35rj-JRHSvAjEI8MXGNGmJGWDwwxLTR8m7h207GgN2I8mkGTmG3UXocXp9YhoGLWuJ-BJfqYbqM_QUQtXUFr76dpKahyjK6u0HMxC90gWCxlAqvGatkdsRBdndistG7zxh3CmQQW8vZICNNz-E9kCePSsYBnGdQYxuAiUluMzGKue_5EMpIISpA8Ykr24ybmz__S4OqVKjOJzZvOFSUlbTYQRzRl_dIa-lcjkse136dinCbkBMLveu2pSmT0QZ6W4NVKKvXgP_HGOq6wnkuJX-w9_nLXGz4H5gB1r0YKwzeNJWtfUq3665CunwXWByiDjoDWowSD3RZRSRrhIg8_Uh29qswhFxro1v578iSuzipsNhhq_s_58KNZsaOvhekQcgzZohwaWMW4ZjjExJStMUiXvOxXwrYUF4TJf4j9TqOLvY9HTE2vBGthQnpt8JVr0l3-CSCp-uXX4e839TWNuaxgAjJ67PYcF23mdZRcw=w958-h410-ft', 'https://lh3.googleusercontent.com/fife/ABSRlIrfeoZODN6nVh5rfEeFe37XAx5qCzKU8R_XCQxCTHxZJNZ5O0g2TZpx3QAUOiuD6InvyvY8sMOA1wDMUOXHlX3O0j8QOdhi9r4Di6KPvYS9bh8xAXjI1CWxJ4uSZtJcKOwmL3cWTT1rGozjBP1ADOHO4orTl4V20yCwRSncrHO3N1tJKNG7l418j1Ln2Z7n2S7KAwGJmp7xBqdN5gH6f4fcNzFT_idNBHfWLPwLtmAPHwIxTXhVOqqSa35rj-JRHSvAjEI8MXGNGmJGWDwwxLTR8m7h207GgN2I8mkGTmG3UXocXp9YhoGLWuJ-BJfqYbqM_QUQtXUFr76dpKahyjK6u0HMxC90gWCxlAqvGatkdsRBdndistG7zxh3CmQQW8vZICNNz-E9kCePSsYBnGdQYxuAiUluMzGKue_5EMpIISpA8Ykr24ybmz__S4OqVKjOJzZvOFSUlbTYQRzRl_dIa-lcjkse136dinCbkBMLveu2pSmT0QZ6W4NVKKvXgP_HGOq6wnkuJX-w9_nLXGz4H5gB1r0YKwzeNJWtfUq3665CunwXWByiDjoDWowSD3RZRSRrhIg8_Uh29qswhFxro1v578iSuzipsNhhq_s_58KNZsaOvhekQcgzZohwaWMW4ZjjExJStMUiXvOxXwrYUF4TJf4j9TqOLvY9HTE2vBGthQnpt8JVr0l3-CSCp-uXX4e839TWNuaxgAjJ67PYcF23mdZRcw=w958-h410-ft');
-                        $result = $bot->replyMessage($event['replyToken'], $imageMessageBuilder);
-                        // $multiMessageBuilder->add($imageMessageBuilder);
-
-                    } else if (lcfirst($event['message']['text']) == 'audio') {
-                        // send audio
-                        $audioMessageBuilder = new AudioMessageBuilder('https://flrc-old.pomona.edu/audio/Japanese/1a/Genki1_2nd_TB/mp3/Genki1-Title.mp3', '4:35');
-                        $result = $bot->replyMessage($event['replyToken'], $audioMessageBuilder);
-                        // $multiMessageBuilder->add($audioMessageBuilder);
-
-                    } else if (lcfirst($event['message']['text']) == 'video') {
-                        // send video
-                        $videoMessageBuilder = new VideoMessageBuilder("https://youtu.be/bpKoG_LLBaM", 'https://i.ytimg.com/vi/bpKoG_LLBaM/hqdefault.jpg?sqp=-oaymwEZCOADEI4CSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLA8lWC19xbLTXoRwl5tr1kOU7tkCg');
-                        $result = $bot->replyMessage($event['replyToken'], $videoMessageBuilder);
-                        // $multiMessageBuilder->add($videoMessageBuilder);
-
-                    } else if (lcfirst($event['message']['text']) == 'hi') {
+                        $multiMessageBuilder->add($imageMessageBuilder);
+                    } else if (lcfirst($event['message']['text']) == 'youtube') {
                         // send text
                         $textMessageBuilder2 = new TextMessageBuilder("https://youtu.be/bpKoG_LLBaM");
                         $multiMessageBuilder->add($textMessageBuilder2);
                     }
 
                     // store result
-                    if (
-                        lcfirst($event['message']['text']) != 'gambar' and
-                        lcfirst($event['message']['text']) != 'audio'  and
-                        lcfirst($event['message']['text']) != 'video'
-                    ) {
-                        $result = $bot->replyMessage($event['replyToken'], $multiMessageBuilder);
-                    }
+                    $result = $bot->replyMessage($event['replyToken'], $multiMessageBuilder);
 
                     // write to JSON
                     $response->getBody()->write(json_encode($result->getJSONDecodedBody()));
