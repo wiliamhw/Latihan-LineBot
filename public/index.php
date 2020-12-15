@@ -96,7 +96,7 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
 
                     } else if (lcfirst($event['message']['text']) == 'video') {
                         // send video
-                        $videoMessageBuilder = new VideoMessageBuilder('https://youtu.be/1_TK6GOKxRk', 'https://i.ytimg.com/vi/E99ef0wU-pI/hq720.jpg?sqp=-oaymwEZCOgCEMoBSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLACWXOzuVj57AX4bXq5HAuG9ha0RQ');
+                        $videoMessageBuilder = new VideoMessageBuilder('<iframe width="893" height="502" src="https://www.youtube.com/embed/iGmk8SFGCAA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>', 'https://i.ytimg.com/vi/iGmk8SFGCAA/hqdefault.jpg?sqp=-oaymwEZCPYBEIoBSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLBg-EMzABMWxYNDQXA6vkg5ExNrRA');
                         $result = $bot->replyMessage($event['replyToken'], $videoMessageBuilder);
                         // $multiMessageBuilder->add($videoMessageBuilder);
 
