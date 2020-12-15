@@ -96,13 +96,13 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
 
                     } else if (lcfirst($event['message']['text']) == 'video') {
                         // send video
-                        $videoMessageBuilder = new VideoMessageBuilder('https://youtu.be/bpKoG_LLBaM', 'https://i.ytimg.com/vi/bpKoG_LLBaM/hqdefault.jpg?sqp=-oaymwEZCOADEI4CSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLA8lWC19xbLTXoRwl5tr1kOU7tkCg');
+                        $videoMessageBuilder = new VideoMessageBuilder("https://youtu.be/bpKoG_LLBaM", 'https://i.ytimg.com/vi/bpKoG_LLBaM/hqdefault.jpg?sqp=-oaymwEZCOADEI4CSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLA8lWC19xbLTXoRwl5tr1kOU7tkCg');
                         $result = $bot->replyMessage($event['replyToken'], $videoMessageBuilder);
                         // $multiMessageBuilder->add($videoMessageBuilder);
 
                     } else if (lcfirst($event['message']['text']) == 'hi') {
                         // send text
-                        $textMessageBuilder2 = new TextMessageBuilder("Hello");
+                        $textMessageBuilder2 = new TextMessageBuilder("https://youtu.be/bpKoG_LLBaM");
                         $multiMessageBuilder->add($textMessageBuilder2);
                     }
 
