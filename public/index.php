@@ -131,8 +131,15 @@ $app->get('/pushmessage', function ($req, $response) use ($bot) {
 
 $app->get('/multicast', function($req, $response) use ($bot)
 {
-    // list of users
     $userList = ['U03f2e64bdbc12c90ed48141c3a51ee39'];
+
+    // list of users
+    // $userList = [
+    //     'U206d25c2ea6bd87c17655609xxxxxxxx',
+    //     'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+    //     'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+    //     'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+    //     'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'];
  
     // send multicast message to user
     $textMessageBuilder = new TextMessageBuilder('Halo, ini pesan multicast');
@@ -140,6 +147,20 @@ $app->get('/multicast', function($req, $response) use ($bot)
  
  
     $response->getBody()->write("Pesan multicast berhasil dikirim");
+    return $response
+        ->withHeader('Content-Type', 'application/json')
+        ->withStatus($result->getHTTPStatus());
+});
+
+$app->get('/profile', function ($req, $response) use ($bot) // statis
+// $app->get('/profile/{userId}', function ($req, $response, $args) use ($bot) // dinamis
+{
+    // get user profile
+    $userId = 'U03f2e64bdbc12c90ed48141c3a51ee39'; // statis
+    // $userId = $args['userId']; // dinamis
+    $result = $bot->getProfile($userId);
+ 
+    $response->getBody()->write(json_encode($result->getJSONDecodedBody()));
     return $response
         ->withHeader('Content-Type', 'application/json')
         ->withStatus($result->getHTTPStatus());
