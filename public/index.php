@@ -114,10 +114,14 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
 
 // buat push message
 $app->get('/pushmessage', function ($req, $response) use ($bot) {
-    // send push message to user
-    $userId = 'U03f2e64bdbc12c90ed48141c3a51ee39';
-    $textMessageBuilder = new TextMessageBuilder('Halo');
+    // send push message to a user
+    $userId = 'pangsiittt';
+    $textMessageBuilder = new TextMessageBuilder('Halo, ini pesan push');
     $result = $bot->pushMessage($userId, $textMessageBuilder);
+
+    // sticker example
+    // $stickerMessageBuilder = new StickerMessageBuilder(1, 106);
+    // $result = &bot->pushMessage($userId, $stickerMessageBuilder);
  
     $response->getBody()->write("Pesan push berhasil dikirim!");
     return $response
