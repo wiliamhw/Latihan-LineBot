@@ -95,8 +95,12 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
                         // send video
                         $videoMessageBuilder  = new VideoMessageBuilder('https://r6---sn-xmjxajvh-jb3zl.googlevideo.com/videoplayback?expire=1608302486&ei=NmvcX8icGJjmvwTV166wAQ&ip=103.3.222.244&id=o-AOdXh0slPy9r88COgfkOS9xGu9FNBAiU7oUbyLquAOim&itag=22&source=youtube&requiressl=yes&mh=g-&mm=31%2C26&mn=sn-xmjxajvh-jb3zl%2Csn-i3belnel&ms=au%2Conr&mv=m&mvi=6&pl=24&initcwndbps=958750&vprv=1&mime=video%2Fmp4&ns=tC0m7908btEFeclbt1qgF7IF&ratebypass=yes&dur=30.789&lmt=1608277850523091&mt=1608280613&fvip=6&c=WEB&txp=6316222&n=7CnfRE-FDq3CDdjpa&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cvprv%2Cmime%2Cns%2Cratebypass%2Cdur%2Clmt&sig=AOq0QJ8wRQIhAMSpE6JvtCBYi2UGIJdjAesoKHtA1GBSvwI6yviydF0QAiADCbCUoRv9qtmQfo9vujWQEJx578nwawzYvRvrMPd3eA%3D%3D&lsparams=mh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl%2Cinitcwndbps&lsig=AG3C_xAwRAIgZW2GI_4IY1JaaZMe2MYnGJsmKMijVAvPuHf3Daw-pmoCIF3uzy2pVkr_y-cw7aUH3ufw5bj1bOsmsKi_zDqcKTVq', 'https://i.ytimg.com/vi/f0u0KQGfaec/hq720.jpg?sqp=-oaymwEZCOgCEMoBSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLB9jpU2lKWsQ3CfG36L40ZhcfGWaA');
                         $multiMessageBuilder->add($videoMessageBuilder);
+                    } else if (lcfirst($event['message']['text']) == 'audio') {
+                        // send video
+                        $audioMessageBuilder  = new AudioMessageBuilder('https://linebotphp85.herokuapp.com/public/content/13224794389796', '4:21');
+                        $multiMessageBuilder->add($audioMessageBuilder);
                     }
-
+                    
                     // store result
                     $result = $bot->replyMessage($event['replyToken'], $multiMessageBuilder);
 
