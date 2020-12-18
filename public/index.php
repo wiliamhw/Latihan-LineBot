@@ -96,7 +96,7 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
                         $multiMessageBuilder->add($videoMessageBuilder );
                     } else if (lcfirst($event['message']['text']) == 'audio') {
                         // send text
-                        $audioMessageBuilder  = new AudioMessageBuilder('https://voca.ro/1sakRdd6gOz3', '4:21');
+                        $audioMessageBuilder  = new AudioMessageBuilder('https://drive.google.com/file/d/1pEIpDcXSy1yBjSzXmQvM6S-KsRDoqI2N/view?usp=sharing', '4:21');
                         $multiMessageBuilder->add($audioMessageBuilder );
                     }
 
