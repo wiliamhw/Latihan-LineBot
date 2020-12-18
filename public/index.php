@@ -116,7 +116,7 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
 $app->get('/pushmessage', function ($req, $response) use ($bot) {
     // send push message to user
     $userId = 'U03f2e64bdbc12c90ed48141c3a51ee39';
-    $textMessageBuilder = new TextMessageBuilder('Halo beb');
+    $textMessageBuilder = new TextMessageBuilder('Halo');
     $result = $bot->pushMessage($userId, $textMessageBuilder);
  
     $response->getBody()->write("Pesan push berhasil dikirim!");
