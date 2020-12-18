@@ -96,7 +96,7 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
                         $multiMessageBuilder->add($videoMessageBuilder );
                     } else if (lcfirst($event['message']['text']) == 'audio') {
                         // send text
-                        $audioMessageBuilder  = new AudioMessageBuilder('http://docs.google.com/uc?export=open&id=1pEIpDcXSy1yBjSzXmQvM6S-KsRDoqI2N', '4:21');
+                        $audioMessageBuilder  = new AudioMessageBuilder('https://doc-0k-18-docs.googleusercontent.com/docs/securesc/10hmgrenudh7s141r3t2qhln95ef3l3m/b0ufp5qqe1kvuod8ogqk3qofmu2gb389/1608283875000/14913596300072514740/14913596300072514740/1pEIpDcXSy1yBjSzXmQvM6S-KsRDoqI2N?e=download&authuser=0&nonce=i9ikd9d0q9dsc&user=14913596300072514740&hash=htgd1pii7p3idc17j8pj4m1vo2gpuc1n', '4:21');
                         $multiMessageBuilder->add($audioMessageBuilder );
                     }
 
