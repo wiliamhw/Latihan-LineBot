@@ -96,7 +96,7 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
                         $multiMessageBuilder->add($videoMessageBuilder);
                     } else if (lcfirst($event['message']['text']) == 'audio') {
                         // send text
-                        $audioMessageBuilder  = new AudioMessageBuilder('http://www.nch.com.au/acm/8k16bitpcm.wav', '4:21');
+                        $audioMessageBuilder  = new AudioMessageBuilder('http://www.nch.com.au/acm/8k16bitpcm.wav', '0:20');
                         $multiMessageBuilder->add($audioMessageBuilder);
                     }
 
