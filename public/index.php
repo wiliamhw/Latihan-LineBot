@@ -59,10 +59,11 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
     // store JSON data
     $data = json_decode($body, true);
 
-    // Reply text message
+    // Reply user input
     if (is_array($data['events'])) {
         foreach ($data['events'] as $event) {
             if ($event['type'] == 'message') {
+                // Reply when input = text
                 if ($event['message']['type'] == 'text') {
                     // send same message as reply to user
                     // $result = $bot->replyText($event['replyToken'], $event['message']['text']);
@@ -105,6 +106,22 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
                         ->withHeader('Content-Type', 'application/json')
                         ->withStatus($result->getHTTPStatus());
                 }
+                // get berkas selain text dari user
+                elseif (
+                    $event['message']['type'] == 'image' or
+                    $event['message']['type'] == 'video' or
+                    $event['message']['type'] == 'audio' or
+                    $event['message']['type'] == 'file'
+                ) {
+                    $contentURL = " https://example.herokuapp.com/public/content/" . $event['message']['id'];
+                    $contentType = ucfirst($event['message']['type']);
+                    $result = $bot->replyText($event['replyToken'],
+                        $contentType . " yang Anda kirim bisa diakses dari link:\n " . $contentURL);
+                    $response->getBody()->write(json_encode($result->getJSONDecodedBody()));
+                    return $response
+                        ->withHeader('Content-Type', 'application/json')
+                        ->withStatus($result->getHTTPStatus());
+                } 
             }
         }
         return $response->withStatus(200, 'for Webhook!'); //buat ngasih response 200 ke pas verify webhook
@@ -163,6 +180,19 @@ $app->get('/profile', function ($req, $response) use ($bot) // statis
     $response->getBody()->write(json_encode($result->getJSONDecodedBody()));
     return $response
         ->withHeader('Content-Type', 'application/json')
+        ->withStatus($result->getHTTPStatus());
+});
+
+
+// get berkas
+$app->get('/content/{messageId}', function ($req, $response, $args) use ($bot) {
+    // get message content
+    $messageId = $args['messageId'];
+    $result = $bot->getMessageContent($messageId);
+    // set response
+    $response->getBody()->write($result->getRawBody());
+    return $response
+        ->withHeader('Content-Type', $result->getHeader('Content-Type'))
         ->withStatus($result->getHTTPStatus());
 });
 
