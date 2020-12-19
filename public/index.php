@@ -96,7 +96,7 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
                         $videoMessageBuilder  = new VideoMessageBuilder('https://r6---sn-xmjxajvh-jb3zl.googlevideo.com/videoplayback?expire=1608302486&ei=NmvcX8icGJjmvwTV166wAQ&ip=103.3.222.244&id=o-AOdXh0slPy9r88COgfkOS9xGu9FNBAiU7oUbyLquAOim&itag=22&source=youtube&requiressl=yes&mh=g-&mm=31%2C26&mn=sn-xmjxajvh-jb3zl%2Csn-i3belnel&ms=au%2Conr&mv=m&mvi=6&pl=24&initcwndbps=958750&vprv=1&mime=video%2Fmp4&ns=tC0m7908btEFeclbt1qgF7IF&ratebypass=yes&dur=30.789&lmt=1608277850523091&mt=1608280613&fvip=6&c=WEB&txp=6316222&n=7CnfRE-FDq3CDdjpa&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cvprv%2Cmime%2Cns%2Cratebypass%2Cdur%2Clmt&sig=AOq0QJ8wRQIhAMSpE6JvtCBYi2UGIJdjAesoKHtA1GBSvwI6yviydF0QAiADCbCUoRv9qtmQfo9vujWQEJx578nwawzYvRvrMPd3eA%3D%3D&lsparams=mh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl%2Cinitcwndbps&lsig=AG3C_xAwRAIgZW2GI_4IY1JaaZMe2MYnGJsmKMijVAvPuHf3Daw-pmoCIF3uzy2pVkr_y-cw7aUH3ufw5bj1bOsmsKi_zDqcKTVq', 'https://i.ytimg.com/vi/f0u0KQGfaec/hq720.jpg?sqp=-oaymwEZCOgCEMoBSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLB9jpU2lKWsQ3CfG36L40ZhcfGWaA');
                         $multiMessageBuilder->add($videoMessageBuilder);
                     }
-                    
+
                     // store result
                     $result = $bot->replyMessage($event['replyToken'], $multiMessageBuilder);
 
@@ -115,13 +115,42 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
                 ) {
                     $contentURL = " https://linebotphp85.herokuapp.com/public/content/" . $event['message']['id'];
                     $contentType = ucfirst($event['message']['type']);
-                    $result = $bot->replyText($event['replyToken'],
-                        $contentType . " yang Anda kirim bisa diakses dari link:\n " . $contentURL);
+                    $result = $bot->replyText(
+                        $event['replyToken'],
+                        $contentType . " yang Anda kirim bisa diakses dari link:\n " . $contentURL
+                    );
                     $response->getBody()->write(json_encode($result->getJSONDecodedBody()));
                     return $response
                         ->withHeader('Content-Type', 'application/json')
                         ->withStatus($result->getHTTPStatus());
-                } 
+                }
+                //group room
+                elseif (
+                    $event['source']['type'] == 'group' or
+                    $event['source']['type'] == 'room'
+                ) {
+                    //message from group / room
+                    if ($event['source']['userId']) {
+
+                        $userId = $event['source']['userId'];
+                        $getprofile = $bot->getProfile($userId);
+                        $profile = $getprofile->getJSONDecodedBody();
+                        $greetings = new TextMessageBuilder("Halo, " . $profile['displayName']);
+
+                        $result = $bot->replyMessage($event['replyToken'], $greetings);
+                        $response->getBody()->write(json_encode($result->getJSONDecodedBody()));
+                        return $response
+                            ->withHeader('Content-Type', 'application/json')
+                            ->withStatus($result->getHTTPStatus());
+                    }
+                } else {
+                    //message from single user
+                    $result = $bot->replyText($event['replyToken'], $event['message']['text']);
+                    $response->getBody()->write((string)$result->getJSONDecodedBody());
+                    return $response
+                        ->withHeader('Content-Type', 'application/json')
+                        ->withStatus($result->getHTTPStatus());
+                }
             }
         }
         return $response->withStatus(200, 'for Webhook!'); //buat ngasih response 200 ke pas verify webhook
@@ -146,8 +175,7 @@ $app->get('/pushmessage', function ($req, $response) use ($bot) {
         ->withStatus($result->getHTTPStatus());
 });
 
-$app->get('/multicast', function($req, $response) use ($bot)
-{
+$app->get('/multicast', function ($req, $response) use ($bot) {
     $userList = ['U03f2e64bdbc12c90ed48141c3a51ee39'];
 
     // list of users
@@ -157,12 +185,12 @@ $app->get('/multicast', function($req, $response) use ($bot)
     //     'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
     //     'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
     //     'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'];
- 
+
     // send multicast message to user
     $textMessageBuilder = new TextMessageBuilder('Halo, ini pesan multicast');
     $result = $bot->multicast($userList, $textMessageBuilder);
- 
- 
+
+
     $response->getBody()->write("Pesan multicast berhasil dikirim");
     return $response
         ->withHeader('Content-Type', 'application/json')
@@ -176,7 +204,7 @@ $app->get('/profile', function ($req, $response) use ($bot) // statis
     $userId = 'U03f2e64bdbc12c90ed48141c3a51ee39'; // statis
     // $userId = $args['userId']; // dinamis
     $result = $bot->getProfile($userId);
- 
+
     $response->getBody()->write(json_encode($result->getJSONDecodedBody()));
     return $response
         ->withHeader('Content-Type', 'application/json')
