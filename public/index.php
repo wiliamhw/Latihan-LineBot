@@ -148,6 +148,7 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
                                 ]
                             ],
                         ]);
+                    }
 
                     // store result
                     if (strtolower($event['message']['text']) != 'flex message') {
