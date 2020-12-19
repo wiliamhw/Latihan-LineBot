@@ -55,8 +55,8 @@
           "action": {
             "type": "postback",
             "label": "Trial",
-            "displayText": "Trial",
-            "data": "Trial"
+            "displayText": "Trial1",
+            "data": "Trial2"
           }
         },
         {
@@ -65,8 +65,8 @@
           "action": {
             "type": "postback",
             "label": "Daftar",
-            "displayText": "Daftar",
-            "data": "Daftar"
+            "displayText": "Daftar1",
+            "data": "Daftar2"
           }
         }
       ]
