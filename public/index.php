@@ -132,10 +132,6 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
                         // send video
                         $videoMessageBuilder  = new VideoMessageBuilder('https://i.imgur.com/OMdvzJ9.mp4', 'https://i.imgur.com/yUqrm2M.jpg');
                         $multiMessageBuilder->add($videoMessageBuilder);
-                    } else if (strtolower($event['message']['text']) == 'audio') {
-                        // send video
-                        $audioMessageBuilder  = new AudioMessageBuilder('https://od.lk/s/MjVfMjA2NTIzMzlf/Yoru-ni-kakeru-%28osanime.com%29.mp3', '4:21');
-                        $multiMessageBuilder->add($audioMessageBuilder);
                     } else if (strtolower($event['message']['text']) == 'user name') {
                         // send user name
                         $userId = $event['source']['userId'];
