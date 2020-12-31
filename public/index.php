@@ -13,6 +13,7 @@ use \LINE\LINEBot\MessageBuilder\TextMessageBuilder;
 use \LINE\LINEBot\MessageBuilder\StickerMessageBuilder;
 use \LINE\LINEBot\MessageBuilder\ImageMessageBuilder;
 use \LINE\LINEBot\MessageBuilder\VideoMessageBuilder;
+use \LINE\LINEBot\MessageBuilder\AudioMessageBuilder;
 use \LINE\LINEBot\SignatureValidator as SignatureValidator;
 
 // If request simulation --> true
@@ -121,7 +122,7 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
                         $multiMessageBuilder->add($stickerMessageBuilder);
                     } else if (strtolower($event['message']['text']) == 'gambar') {
                         // send image
-                        $imageMessageBuilder = new ImageMessageBuilder('https://lh3.googleusercontent.com/fife/ABSRlIrfeoZODN6nVh5rfEeFe37XAx5qCzKU8R_XCQxCTHxZJNZ5O0g2TZpx3QAUOiuD6InvyvY8sMOA1wDMUOXHlX3O0j8QOdhi9r4Di6KPvYS9bh8xAXjI1CWxJ4uSZtJcKOwmL3cWTT1rGozjBP1ADOHO4orTl4V20yCwRSncrHO3N1tJKNG7l418j1Ln2Z7n2S7KAwGJmp7xBqdN5gH6f4fcNzFT_idNBHfWLPwLtmAPHwIxTXhVOqqSa35rj-JRHSvAjEI8MXGNGmJGWDwwxLTR8m7h207GgN2I8mkGTmG3UXocXp9YhoGLWuJ-BJfqYbqM_QUQtXUFr76dpKahyjK6u0HMxC90gWCxlAqvGatkdsRBdndistG7zxh3CmQQW8vZICNNz-E9kCePSsYBnGdQYxuAiUluMzGKue_5EMpIISpA8Ykr24ybmz__S4OqVKjOJzZvOFSUlbTYQRzRl_dIa-lcjkse136dinCbkBMLveu2pSmT0QZ6W4NVKKvXgP_HGOq6wnkuJX-w9_nLXGz4H5gB1r0YKwzeNJWtfUq3665CunwXWByiDjoDWowSD3RZRSRrhIg8_Uh29qswhFxro1v578iSuzipsNhhq_s_58KNZsaOvhekQcgzZohwaWMW4ZjjExJStMUiXvOxXwrYUF4TJf4j9TqOLvY9HTE2vBGthQnpt8JVr0l3-CSCp-uXX4e839TWNuaxgAjJ67PYcF23mdZRcw=w958-h410-ft', 'https://lh3.googleusercontent.com/fife/ABSRlIrfeoZODN6nVh5rfEeFe37XAx5qCzKU8R_XCQxCTHxZJNZ5O0g2TZpx3QAUOiuD6InvyvY8sMOA1wDMUOXHlX3O0j8QOdhi9r4Di6KPvYS9bh8xAXjI1CWxJ4uSZtJcKOwmL3cWTT1rGozjBP1ADOHO4orTl4V20yCwRSncrHO3N1tJKNG7l418j1Ln2Z7n2S7KAwGJmp7xBqdN5gH6f4fcNzFT_idNBHfWLPwLtmAPHwIxTXhVOqqSa35rj-JRHSvAjEI8MXGNGmJGWDwwxLTR8m7h207GgN2I8mkGTmG3UXocXp9YhoGLWuJ-BJfqYbqM_QUQtXUFr76dpKahyjK6u0HMxC90gWCxlAqvGatkdsRBdndistG7zxh3CmQQW8vZICNNz-E9kCePSsYBnGdQYxuAiUluMzGKue_5EMpIISpA8Ykr24ybmz__S4OqVKjOJzZvOFSUlbTYQRzRl_dIa-lcjkse136dinCbkBMLveu2pSmT0QZ6W4NVKKvXgP_HGOq6wnkuJX-w9_nLXGz4H5gB1r0YKwzeNJWtfUq3665CunwXWByiDjoDWowSD3RZRSRrhIg8_Uh29qswhFxro1v578iSuzipsNhhq_s_58KNZsaOvhekQcgzZohwaWMW4ZjjExJStMUiXvOxXwrYUF4TJf4j9TqOLvY9HTE2vBGthQnpt8JVr0l3-CSCp-uXX4e839TWNuaxgAjJ67PYcF23mdZRcw=w958-h410-ft');
+                        $imageMessageBuilder = new ImageMessageBuilder('https://i.imgur.com/kBzhWuh.jpg', 'https://i.imgur.com/kBzhWuh.jpg');
                         $multiMessageBuilder->add($imageMessageBuilder);
                     } else if (strtolower($event['message']['text']) == 'youtube') {
                         // send text
@@ -129,11 +130,18 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
                         $multiMessageBuilder->add($textMessageBuilder2);
                     } else if (strtolower($event['message']['text']) == 'video') {
                         // send video
-                        $videoMessageBuilder  = new VideoMessageBuilder('https://i.imgur.com/EVjVe2m.mp4', 'https://i.imgur.com/gVTDEet.jpg');
+                        $videoMessageBuilder  = new VideoMessageBuilder('https://i.imgur.com/OMdvzJ9.mp4', 'https://i.imgur.com/yUqrm2M.jpg');
                         $multiMessageBuilder->add($videoMessageBuilder);
-                    } else if (strtolower($event['message']['text']) == 'user id') {
-                        // send user id
-                        $textMessageBuilder3 = new TextMessageBuilder($event['source']['userId']);
+                    } else if (strtolower($event['message']['text']) == 'audio') {
+                        // send video
+                        $audioMessageBuilder  = new AudioMessageBuilder('https://sndup.net/7kyk/d', '4:21');
+                        $multiMessageBuilder->add($audioMessageBuilder);
+                    } else if (strtolower($event['message']['text']) == 'user name') {
+                        // send user name
+                        $userId = $event['source']['userId'];
+                        $getprofile = $bot->getProfile($userId);
+                        $profile = $getprofile->getJSONDecodedBody();
+                        $textMessageBuilder3 = new TextMessageBuilder(("Halo, " . $profile['displayName']));
                         $multiMessageBuilder->add($textMessageBuilder3);
                     } else if (strtolower($event['message']['text']) == 'flex message') {
  
