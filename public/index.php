@@ -1,6 +1,7 @@
 $httpClient
 <?php
 require __DIR__ . '/../vendor/autoload.php';
+require '../config.php';
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -16,13 +17,13 @@ use \LINE\LINEBot\MessageBuilder\VideoMessageBuilder;
 use \LINE\LINEBot\MessageBuilder\AudioMessageBuilder;
 use \LINE\LINEBot\SignatureValidator as SignatureValidator;
 
+// get data from config file
+$this->_contentURL = $_contentURL;
+$this->_userId = $_userId;
+
 // If request simulation --> true
 // else set to false
 $pass_signature = true;
-
-// set LINE channel_access_token and channel_secret
-$channel_access_token = "LNMWbKHQ0JXLvPSfRLV3HM3MtZ+CnUph6nY5d48+4i1TKm70NrxU3IkiawzBUMxM5zpnYYW3oL4dMdwDchCCtAisNcx+TrGPjrUl5kIOApn/zztB5BBgMRrXy6xbD+6vyUFiF6bRnWorAMbSJPqzgQdB04t89/1O/w1cDnyilFU=";
-$channel_secret = "ba0817daac4a0e92ce87f1dd70b9aa5b";
 
 // inisiasi objek bot
 $httpClient = new CurlHTTPClient($channel_access_token);
@@ -71,7 +72,7 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
                     $event['message']['type'] == 'audio' or
                     $event['message']['type'] == 'file'
                 ) {
-                    $contentURL = " https://linebotphp85.herokuapp.com/public/content/" . $event['message']['id'];
+                    $contentURL = $this->_contentURL . $event['message']['id'];
                     $contentType = ucfirst($event['message']['type']);
                     $result = $bot->replyText(
                         $event['replyToken'],
@@ -175,7 +176,7 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
 // buat push message
 $app->get('/pushmessage', function ($req, $response) use ($bot) {
     // send push message to a user
-    $userId = 'U03f2e64bdbc12c90ed48141c3a51ee39';
+    $userId = $this->_userId;
     $textMessageBuilder = new TextMessageBuilder('Halo, ini pesan push');
     $result = $bot->pushMessage($userId, $textMessageBuilder);
 
@@ -190,11 +191,10 @@ $app->get('/pushmessage', function ($req, $response) use ($bot) {
 });
 
 $app->get('/multicast', function ($req, $response) use ($bot) {
-    $userList = ['U03f2e64bdbc12c90ed48141c3a51ee39'];
+    $userList = [$this->_userId];
 
     // list of users
     // $userList = [
-    //     'U206d25c2ea6bd87c17655609xxxxxxxx',
     //     'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
     //     'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
     //     'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
@@ -215,7 +215,7 @@ $app->get('/profile', function ($req, $response) use ($bot) // statis
 // $app->get('/profile/{userId}', function ($req, $response, $args) use ($bot) // dinamis
 {
     // get user profile
-    $userId = 'U03f2e64bdbc12c90ed48141c3a51ee39'; // statis
+    $userId = $this->_userId; // statis
     // $userId = $args['userId']; // dinamis
     $result = $bot->getProfile($userId);
 
